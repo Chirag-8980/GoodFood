@@ -3,10 +3,11 @@ import {createAsyncThunk , createSlice } from "@reduxjs/toolkit";
 // Get Search Data From API
 export const getSearchData = createAsyncThunk("getSearchData" ,
     async(searchData , {rejectWithValue }) =>{
+        // console.log(localStorage.getItem("searchQuery"))
         try {
             const response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=${searchData}&app_id=6916ab39&app_key=f71cc348408590c7ceedeae64cbe0c1a`);
             const result = await response.json()
-            console.log("Result--->" , result)
+            // console.log("Result--->" , result)
             return result;
         } catch (error) {
             return rejectWithValue("Getting Some Error...", error)
@@ -35,9 +36,9 @@ export const getData = createSlice({
         Data : [],
         Loading : false,
         error : null,
-        searchData : undefined
+        searchData : localStorage.getItem("searchQuery")
     },
-    reducer : {
+    reducers : {
         searchData : (state ,action) =>{
             state.searchData = action.payload
         }
@@ -56,5 +57,5 @@ export const getData = createSlice({
         },
     }
 })
-
+export const { searchData } = getData.actions;
 export default getData.reducer;

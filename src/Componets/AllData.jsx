@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getSearchData } from "../features/getData";
+import { useParams } from "react-router-dom";
 
 const AllData = () => {
+  
   const data = useSelector((state) => {
     return state.app.Data.hits;
   });
@@ -11,13 +14,13 @@ const AllData = () => {
   console.log(data);
   return (
     <>
-      <section class="articles mt-5 mb-5">
+      <section className="articles mt-5 mb-5">
         {
           // Condition
           Loading == true ? (
             // Loader Code
             <div className="center">
-              <div class="spinner">
+              <div className="spinner">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -26,25 +29,33 @@ const AllData = () => {
                 <div></div>
               </div>
             </div>
-          ) : (
+          ) : !data.length == 0 ? (
             data.map((item, i) => {
               return (
                 <article key={i}>
-                  <div class="article-wrapper">
+                  <div className="article-wrapper">
                     <figure>
                       <img src={item.recipe.image} alt="" />
                     </figure>
-                    <div class="article-body">
-                      <h2>{item.recipe.label}</h2>
-                      <p>
-                        {item.recipe.digest.map((digest)=>{ return digest.label}).join(" • ")}
+                    <div className="article-body">
+                      <h2>{item.recipe.label.slice(0, 15)}...</h2>
+                      <p className="d-flex flex-wrap">
+                        {item.recipe.healthLabels
+                          .map((healthLabels) => {
+                            return (
+                              <p className=" border p-1 m-1">{healthLabels}</p>
+                            );
+                          })
+                          .slice(0, 7)}
                       </p>
-                      <a href={item.recipe.url} class="read-more">
+                      <a href={item.recipe.url} className="read-more">
                         Read more{" "}
-                        <span class="sr-only">about this is some title</span>
+                        <span className="sr-only">
+                          about this is some title
+                        </span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          class="icon"
+                          className="icon"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -59,6 +70,8 @@ const AllData = () => {
                 </article>
               );
             })
+          ) : (
+            <h1 className="text-center text-light">No Data Awailable </h1>
           )
         }
       </section>

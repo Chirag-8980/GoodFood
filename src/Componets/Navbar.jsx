@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getSearchData } from "../features/getData";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [searchData, setSearhData] = useState("");
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleClick = (e) => {
     e.preventDefault();
-    console.log(searchData);
     dispatch(getSearchData(searchData));
-    navigate("/alldata")
+    navigate(`/alldata`);
+    setSearhData("");
   };
-
   const handleChange = (e) => {
     setSearhData(e.target.value);
   };
@@ -21,13 +21,13 @@ const Navbar = () => {
     <>
       <nav className="navbar navbar-expand-lg bg-t">
         <div className="container-fluid">
-          <a className="navbar-brand text-light" href="#">
-            <div class="glitch-wrapper">
-              <div class="glitch" data-glitch="GoodFood">
+          <Link className="navbar-brand text-light" to="/">
+            <div className="glitch-wrapper">
+              <div className="glitch" data-glitch="GoodFood">
                 GoodFood
               </div>
             </div>
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -58,6 +58,7 @@ const Navbar = () => {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={searchData}
                 name="searchData"
                 onChange={handleChange}
               />

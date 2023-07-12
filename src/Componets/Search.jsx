@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/style.css";
 import { useDispatch } from "react-redux";
 import { getSearchData } from "../features/getData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Search = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,8 @@ const Search = () => {
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(getSearchData(searchData));
-    navigate("/alldata");
+    // localStorage.setItem("searchQuery", searchData);
+    navigate(`/alldata`);
   };
   return (
     <>
